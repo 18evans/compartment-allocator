@@ -44,22 +44,10 @@ class SiteOrderAllocator {
         }
 
         //sort by demand and put in Queue (time complexity: N log N    where n is each unique pair of gasoline and depot
-        val qFuelDepotDemand = PriorityQueue<Map.Entry<Pair<FuelType, String>, Double>>(
-                compareByDescending { //largest first
-                    it.value
-                }
-        ).apply {
-            addAll(mapDepotFuelDemand.entries)
-        }
+        val qFuelDepotDemand = buildPriorityQueueOfFuelDepotEntriesSortedByDemand(mapDepotFuelDemand)
 
         //sort Truck's Compartments by remaining space and place in Queue (C log C   where C == count of compartments)
-        val qCompartments = PriorityQueue<FuelCompartment>(
-                compareByDescending { //most capacity first
-                    it.remainingCapacity
-                }
-        ).apply {
-            addAll(truckCarrier.compartments)
-        }
+        val qCompartments = buildPriorityQueueOfCompartmentsByRemainingSpace(truckCarrier)
 
         //time complexity worst case is (N x C) i believe
 
@@ -105,6 +93,26 @@ class SiteOrderAllocator {
         }
 
         return truckCarrier
+    }
+
+    private fun <T : Carrier> buildPriorityQueueOfCompartmentsByRemainingSpace(truckCarrier: T): PriorityQueue<FuelCompartment> {
+        return PriorityQueue<FuelCompartment>(
+                compareByDescending { //most capacity first
+                    it.remainingCapacity
+                }
+        ).apply {
+            addAll(truckCarrier.compartments)
+        }
+    }
+
+    private fun buildPriorityQueueOfFuelDepotEntriesSortedByDemand(mapDepotFuelDemand: Map<Pair<FuelType, String>, Double>): PriorityQueue<Map.Entry<Pair<FuelType, String>, Double>> {
+        return PriorityQueue<Map.Entry<Pair<FuelType, String>, Double>>(
+                compareByDescending { //largest first
+                    it.value
+                }
+        ).apply {
+            addAll(mapDepotFuelDemand.entries)
+        }
     }
 
 }
