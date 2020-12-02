@@ -2,7 +2,7 @@ package evans18.assignment.fueltransport.data.manager.allocation
 /**
  * Distinct processing types for an allocation calculation.
  *
- * @see [AllocationCalculator]
+ * @see [SiteOrderAllocator]
  */
 enum class AllocationType {
     /**

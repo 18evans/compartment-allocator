@@ -1,8 +1,8 @@
 package evans18.assignment.fueltransport.controller
 
 import evans18.assignment.fueltransport.data.manager.CarrierManager
-import evans18.assignment.fueltransport.data.manager.allocation.AllocationCalculator
 import evans18.assignment.fueltransport.data.manager.allocation.AllocationType
+import evans18.assignment.fueltransport.data.manager.allocation.SiteOrderAllocator
 import evans18.assignment.fueltransport.data.model.TruckCarrier
 import evans18.assignment.fueltransport.data.model.request.SiteOrder
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/allocator")
 class FuelAllocationController(
         private val truckCarriersManager: CarrierManager<TruckCarrier>,
-        private var calculator: AllocationCalculator
+        private var calculator: SiteOrderAllocator
 ) {
 
     /**
