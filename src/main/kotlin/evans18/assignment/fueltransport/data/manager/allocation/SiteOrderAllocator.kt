@@ -1,7 +1,7 @@
 package evans18.assignment.fueltransport.data.manager.allocation
 
 import evans18.assignment.fueltransport.data.model.carrier.Carrier
-import evans18.assignment.fueltransport.data.model.carrier.compartment.Compartment
+import evans18.assignment.fueltransport.data.model.carrier.compartment.FuelCompartment
 import evans18.assignment.fueltransport.data.model.fuel.FuelOrder
 import evans18.assignment.fueltransport.data.model.fuel.FuelType
 import evans18.assignment.fueltransport.data.model.fuel.convertFromCubicMetresToLiters
@@ -53,7 +53,7 @@ class SiteOrderAllocator {
         }
 
         //sort Truck's Compartments by remaining space and place in Queue (C log C   where C == count of compartments)
-        val qCompartments = PriorityQueue<Compartment>(
+        val qCompartments = PriorityQueue<FuelCompartment>(
                 compareByDescending { //most capacity first
                     it.remainingCapacity
                 }
@@ -68,9 +68,9 @@ class SiteOrderAllocator {
             with(qFuelDepotDemand.poll()) { //get next most in demand fuel/depot entry
                 let { (pairFuelDepot, requestedVolume) ->
                     pairFuelDepot.let { (fuelType, depot) ->
-                        var compartment: Compartment
+                        var compartment: FuelCompartment
 
-                        val notFittingCompartments = mutableListOf<Compartment>()
+                        val notFittingCompartments = mutableListOf<FuelCompartment>()
                         //get next most-empty compartment that can ALSO be allowed to be in the compartment
                         do {
                             compartment = qCompartments.poll()
